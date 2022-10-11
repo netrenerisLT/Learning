@@ -1,10 +1,5 @@
-import { auth, firestore, googleAuthProvider } from "../lib/firebase";
-import {
-  getAuth,
-  signInWithRedirect,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { auth, firestoreDb } from "../lib/firebase";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { UserContext } from "../lib/context";
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
@@ -18,6 +13,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import debounce from "lodash.debounce";
+import { toast } from "react-toastify";
 
 export default function SignIn({}) {
   const { user, username } = useContext(UserContext);
@@ -44,7 +40,23 @@ function SignInButton() {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
   const signInPopup = async () => {
-    const result = await signInWithPopup(auth, provider);
+    // const result = await signInWithPopup(auth, provider);
+    signInWithPopup(auth, provider)
+      .then(() => {
+        toast("You succesfully logged in", {
+          toastId: 1,
+        });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
   return (
     <button className="btn-google" onClick={signInPopup}>
@@ -55,7 +67,15 @@ function SignInButton() {
 
 function SignOutButton() {
   return (
-    <button className="btn-google" onClick={() => auth.signOut()}>
+    <button
+      className="btn-google"
+      onClick={() => {
+        auth.signOut();
+        toast("You succesfully logged out", {
+          toastId: 2,
+        });
+      }}
+    >
       sign out
     </button>
   );
@@ -94,7 +114,7 @@ function UsernameForm() {
   const checkUsername = useCallback(
     debounce(async (username) => {
       if (username.length >= 3) {
-        const docRef = doc(firestore, "usernames", username);
+        const docRef = doc(firestoreDb, "usernames", username);
         const docSnap = await getDoc(docRef);
         if (!docSnap.exists()) {
           setIsValid(true);
@@ -109,11 +129,11 @@ function UsernameForm() {
     e.preventDefault();
 
     // Create refs for both documents
-    const userDoc = doc(firestore, "users", user.uid);
-    const usernameDoc = doc(firestore, "usernames", formValue);
+    const userDoc = doc(firestoreDb, "users", user.uid);
+    const usernameDoc = doc(firestoreDb, "usernames", formValue);
 
     // Commit both docs together as a batch write.
-    const batch = writeBatch(firestore);
+    const batch = writeBatch(firestoreDb);
     batch.set(userDoc, {
       username: formValue,
       photoURL: user.photoURL,

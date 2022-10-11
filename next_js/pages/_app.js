@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps }) {
         rtl={false}
         newestOnTop
         closeOnClick
-        pauseOnFocusLoss
         draggable
         pauseOnHover
       />
