@@ -1,19 +1,12 @@
-import { orderBy, queryEqual } from "firebase/firestore";
+import { orderBy } from "firebase/firestore";
 import PostFeed from "../../components/PostFeed";
 import UserProfile from "../../components/UserProfile";
-import { getUserWithUsername, postToJSON } from "../../lib/firebase";
 import {
-  getFirestore,
-  getDoc,
-  onSnapshot,
-  collection,
-  query,
-  where,
-  getDocs,
-  limit,
-  writeBatch,
-} from "firebase/firestore";
-import { firestoreDb } from "../../lib/firebase";
+  getUserWithUsername,
+  postToJSON,
+  firestoreDb,
+} from "../../lib/firebase";
+import { collection, query, where, getDocs, limit } from "firebase/firestore";
 
 export async function getServerSideProps(q) {
   const { username } = q;

@@ -1,7 +1,4 @@
-import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import Link from "next/link";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import PostFeed from "../components/PostFeed";
@@ -16,7 +13,7 @@ import {
   Timestamp,
   startAfter,
 } from "firebase/firestore";
-import { firestoreDb, postToJSON, fromMillis } from "../lib/firebase";
+import { firestoreDb, postToJSON } from "../lib/firebase";
 import { useState } from "react";
 import { async } from "@firebase/util";
 
