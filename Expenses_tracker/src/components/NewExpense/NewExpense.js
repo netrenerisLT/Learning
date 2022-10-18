@@ -12,7 +12,6 @@ function NewExpense(props) {
       id: Math.random().toString(),
     };
     props.onAddExpense(expenseData);
-    // setIsActive(false);
   };
 
   const startEditingHandler = () => {

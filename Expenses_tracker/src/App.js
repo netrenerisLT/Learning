@@ -3,13 +3,9 @@ import NewExpense from "./components/NewExpense/NewExpense.js";
 import React, { useState } from "react";
 
 const DUMMY_ex = [
-  { id: 1, title: "care you", amount: 222, date: new Date(2022, 1, 12) },
-  {
-    id: 2,
-    title: "wow is osom",
-    amount: 22.23,
-    date: new Date(2021, 11, 30),
-  },
+  { id: 1, title: "care you", amount: 100, date: new Date(2022, 10, 12) },
+  { id: 2, title: "care you", amount: 101, date: new Date(2022, 1, 12) },
+  { id: 3, title: "care you", amount: 92.2, date: new Date(2021, 1, 12) },
 ];
 
 const App = () => {
