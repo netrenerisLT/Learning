@@ -1,32 +1,11 @@
 // import { createStore } from "redux";
-import { createSlice, configureStore } from "@reduxjs/toolkit";
-
-const storeInitialState = { counter: 0, showCounter: true };
-
-/* ====================== Jeigu naudojam erdux toolkit ====================== */
-const counterSlice = createSlice({
-  name: "counter",
-  initialState: storeInitialState,
-  reducers: {
-    increment(state) {
-      state.counter++; //galim neperarsyti kitu selectoriu kaip redux paxvyzdyje, nes toolkit naudoja kita library kuris automatiskai sukurria nauja state ir tas objektas yra immutable - perrasomas.
-    },
-    decrement(state) {
-      state.counter--;
-    },
-    increase(state, action) {
-      state.counter = state.counter + action.payload.valueReceived;
-    },
-    toggleCounter(state) {
-      state.showCounter = !state.showCounter;
-    },
-  },
-});
+import { configureStore } from "@reduxjs/toolkit";
+import counterSlice from "./counter";
+import authReducer from "./auth";
 
 const store = configureStore({
-  reducer: counterSlice.reducer,
+  reducer: { counter: counterSlice.reducer, auth: authReducer },
 });
-
 /* ====================== Jeigu naudojam redux ir redux-react modulius tik ====================== */
 // const counterReducer = (state = { initialState }, action) => {
 //   if (action.type === "increment") {
@@ -51,5 +30,4 @@ const store = configureStore({
 // };
 // const store = createStore(counterReducer);
 
-export const counterActions = counterSlice.actions;
 export default store;
