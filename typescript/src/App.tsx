@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import NewTodo from "./components/NewTodo";
+import Todos from "./components/Todos";
+import TodoClass from "./models/todoClass";
+import { useState } from "react";
 
 function App() {
+  const todosHardcoded = [
+    new TodoClass("Learn React"),
+    new TodoClass("Learn typeScript"),
+  ];
+
+  const [todo, setTodo] = useState<TodoClass[]>([]);
+  const addTodoFunction = (todoText: string) => {
+    const newTodo = new TodoClass(todoText);
+    setTodo((prev) => {
+      return prev.concat(newTodo);
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* <Todos items={["1", "2", "----", "4", "5"]} /> */}
+      <Todos items={todosHardcoded} />
+      <Todos items={todo} />
+      <NewTodo onAddTodo={addTodoFunction} />
     </div>
   );
 }
