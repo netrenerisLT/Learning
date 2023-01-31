@@ -25,7 +25,7 @@ const Counter = () => {
 
   return (
     <main className={classes.counter}>
-      <h1>Redux Counter</h1>
+      <h1>Counter</h1>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
       {toggleCounter && (
         <div>
