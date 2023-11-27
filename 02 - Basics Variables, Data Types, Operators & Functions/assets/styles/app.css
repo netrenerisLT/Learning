@@ -3,7 +3,7 @@
 }
 
 html {
-  font-family: 'Roboto', open-sans;
+  font-family: "Roboto", open-sans;
 }
 
 body {
@@ -51,8 +51,8 @@ header {
 }
 
 #calculator button {
-  font: inherit;
-  background: #023d6d;
+  resize: auto;
+  background: gold;
   color: white;
   border: 1px solid #023d6d;
   padding: 1rem;
