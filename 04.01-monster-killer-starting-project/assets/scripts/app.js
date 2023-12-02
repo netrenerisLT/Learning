@@ -10,16 +10,28 @@ const ATTACK_VALUE = 10;
 const STRONG_ATTACK_VALUE = 20;
 const MONSTER_ATTACK_VALUE = 15;
 const HEAL_VALUE = 20;
-// const enteredHealth = prompt(
-//   "How much health should you and monster have?",
-//   "100"
-// );
-let chosenMaxLife = 20 || parseInt(enteredHealth);
-if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
-  //check if valid data enterred
-  alert("You entered not a number");
+let chosenMaxLife;
+
+function checkMaxLifeValue(params) {
+  const enteredHealth = prompt(
+    "How much health should you and monster have?",
+    "100"
+  );
+  const parsedValue = parseInt(enteredHealth);
+  if (isNaN(parsedValue) || parsedValue <= 0) {
+    //check if valid data enterred
+    throw { message: "invalid user input" };
+  }
+  return parsedValue;
+}
+
+try {
+  chosenMaxLife = checkMaxLifeValue();
+} catch (error) {
+  console.log(error);
   chosenMaxLife = 100;
 }
+
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
 let hasBonusLife = true;
@@ -183,7 +195,16 @@ function healPlayerButton(params) {
 }
 
 function showLogHandler() {
-  console.log(battleLog);
+  let i = 0;
+  for (const logEntry of battleLog) {
+    let attacker = logEntry["event"];
+    console.log(`${i}`);
+    i++;
+
+    for (const key in logEntry) {
+      console.log(`${key} => ${logEntry[key]}`);
+    }
+  }
 }
 
 attackBtn.addEventListener("click", attackHandler);
