@@ -58,3 +58,49 @@ startGameBtn.addEventListener("click", function () {
   console.log(message);
   gameIsRunning = false;
 });
+
+/* ====================== not related, but explain bind method ====================== */
+
+const combine = (resultHandler, operation, ...numbers) => {
+  const validateNumber = (number) => {
+    return isNaN(number) ? 0 : number;
+  };
+
+  let sum = 0;
+  for (const num of numbers) {
+    if (operation === "ADD") {
+      sum += validateNumber(num);
+    } else {
+      sum -= validateNumber(num);
+    }
+  }
+  resultHandler(sum);
+};
+
+const showResult = (messageText, result) => {
+  console.log(messageText + " " + result);
+};
+
+combine(showResult.bind(this, "Added:"), "ADD", 1, 23, 4, "asd", 5, -5, 4, -2);
+combine(
+  showResult.bind(this, "Result after added:"),
+  "ADD",
+  1,
+  23,
+  4,
+  5,
+  -5,
+  4,
+  -2
+);
+combine(
+  showResult.bind(this, "Substracted:"),
+  "SUBTRACT",
+  1,
+  23,
+  4,
+  5,
+  -5,
+  4,
+  -2
+);
