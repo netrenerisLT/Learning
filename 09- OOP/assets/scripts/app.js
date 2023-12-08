@@ -67,6 +67,14 @@ class ShoppingCart extends Component {
     this.cartItems = updatedItems;
   }
 
+  orderProductsButton() {
+    console.log(`Ordering:}`);
+    for (const key of this.items) {
+      console.log(key.title);
+    }
+    console.log(this.items);
+  }
+
   render() {
     // const cartEl = document.createElement("section");
     const cartEl = this.createRoodElement("section", "cart");
@@ -75,6 +83,8 @@ class ShoppingCart extends Component {
         <button>Order Now!</button>
         `;
     // cartEl.className = "cart";
+    const orderButton = cartEl.querySelector("button");
+    orderButton.addEventListener("click", () => this.orderProductsButton());
     this.totalOutput = cartEl.querySelector("h2");
     // return cartEl;
   }
@@ -89,7 +99,6 @@ class ProductItem extends Component {
   }
 
   addToCart() {
-    console.log(this.product);
     App.addProductToCart(this.product);
   }
 
