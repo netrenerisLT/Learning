@@ -14,9 +14,34 @@ class DOMHelper {
   }
 }
 
-class Tooltip {}
+//STEP 10.2 add an element which renders when button is clicked
+class Tooltip {
+  constructor(closeNotifierFunction) {
+    this.closeNotifier = closeNotifierFunction;
+  }
+
+  closeTooltip = () => {
+    this.remove();
+    this.closeNotifier();
+  };
+
+  remove() {
+    this.element.remove();
+  }
+
+  show() {
+    console.log("the tooltip");
+    const tooltipElement = document.createElement("div");
+    tooltipElement.className = "card";
+    tooltipElement.textContent = "tooltip updated";
+    tooltipElement.addEventListener("click", this.closeTooltip); //dont need to bind, because we use arrrow function
+    this.element = tooltipElement;
+    document.body.append(tooltipElement);
+  }
+}
 
 class ProjectItem {
+  hasActiveTooltip = false;
   //STEP 2. transfer item's id to this class
   constructor(prjItemsIteratorId, updateProjectListFunction, type) {
     this.prjItemsIteratorId = prjItemsIteratorId;
@@ -25,7 +50,24 @@ class ProjectItem {
     this.connectTypeSwitchButton(type);
   }
 
-  connectMoreInfoButton() {}
+  //STEP 10.1 coonnect tooltip class and prevent from adding more
+  showMoreInfoButton() {
+    if (this.hasActiveTooltip) {
+      return;
+    }
+    const tooltip = new Tooltip(() => {
+      this.hasActiveTooltip = false;
+    });
+    tooltip.show();
+    this.hasActiveTooltip = true;
+  }
+
+  //STEP 10 connect more info button
+  connectMoreInfoButton() {
+    const projectItemElement = document.getElementById(this.prjItemsIteratorId);
+    let moreButton = projectItemElement.querySelector("button:first-of-type");
+    moreButton.addEventListener("click", this.showMoreInfoButton);
+  }
 
   connectTypeSwitchButton(type) {
     //STEP 3. select button with the received id
