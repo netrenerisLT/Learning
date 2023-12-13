@@ -54,11 +54,14 @@ class Tooltip extends Component {
   create() {
     const tooltipElement = document.createElement("div");
     tooltipElement.className = "card";
+
+    //use template tag from html codde to render item
     const tooltipTemplate = document.getElementById("tooltip");
     const tooltipBody = document.importNode(tooltipTemplate.content, true);
     tooltipBody.querySelector("p").textContent = this.tooltipText;
     tooltipElement.append(tooltipBody);
 
+    // set position for the tooltip
     const hostElPosLeft = this.hostElement.offsetLeft;
     const hostElPosTop = this.hostElement.offsetTop;
     const hostElHeight = this.hostElement.clientHeight;
@@ -104,6 +107,14 @@ class ProjectItem {
     this.hasActiveTooltip = true;
   }
 
+  //add scripts dynamically
+  startAnalytics() {
+    const analyticsScript = document.createElement("script");
+    analyticsScript.src = "assets/scripts/analytics.js";
+    analyticsScript.defer = true;
+    document.head.append(analyticsScript);
+  }
+
   connectMoreInfoButton() {
     const projectItemElement = document.getElementById(this.id);
     const moreInfoBtn = projectItemElement.querySelector(
@@ -126,6 +137,7 @@ class ProjectItem {
   update(updateProjectListsFn, type) {
     this.updateProjectListsHandler = updateProjectListsFn;
     this.connectSwitchButton(type);
+    this.startAnalytics();
   }
 }
 
