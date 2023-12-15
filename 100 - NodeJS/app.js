@@ -1,6 +1,10 @@
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
+const { CLIENT_RENEG_LIMIT } = require("tls");
 
 const app = express();
+
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/currenttime", function (request, response) {
@@ -20,8 +24,32 @@ app.get("/", function (req, res) {
 
 app.post("/store-user", function (req, res) {
   const userName = req.body.username;
-  console.log(userName);
+
+  const filePath = path.join(__dirname, "data", "users.json");
+  const fileData = fs.readFileSync(filePath);
+  const parsedData = JSON.parse(fileData);
+  parsedData.push(userName);
+
+  fs.writeFileSync(filePath, JSON.stringify(parsedData));
+
+  console.log(fileData);
+  console.log(parsedData);
+
   res.send("<h1>Username stored</h1>");
+});
+
+app.get("/users", function (req, res) {
+  const filePath = path.join(__dirname, "data", "users.json");
+  const fileData = fs.readFileSync(filePath);
+  const parsedData = JSON.parse(fileData);
+
+  let responseData = "";
+
+  for (const iterator of parsedData) {
+    responseData += `<ul><li>${iterator}</li></ul>`;
+  }
+
+  res.send(responseData);
 });
 
 app.listen(3000);
