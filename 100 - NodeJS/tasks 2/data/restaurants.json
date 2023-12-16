@@ -12,5 +12,12 @@
     "cuisine": "Chinese",
     "website": "https://www.wokc.com",
     "description": "no"
+  },
+  {
+    "name": "LOL",
+    "address": "TEST",
+    "cuisine": "Lithuanian",
+    "website": "https://www.wokc.com",
+    "description": "Of course, best in the hood."
   }
 ]
