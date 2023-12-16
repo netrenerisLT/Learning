@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const uuid = require("uuid");
 
 const app = express();
 app.use(express.static("public")); //checks if the static file in public folder (like css, js) can be delivered to route
@@ -30,6 +31,18 @@ app.get("/restaurants", function (req, res) {
   });
 });
 
+app.get("/restaurants/:id", function (req, res) {
+  const restaurantId = req.params.id;
+  const filePath = path.join(__dirname, "data", "restaurants.json"); //access the data file
+  const fileData = fs.readFileSync(filePath); //read data in file
+  const storedRestaurants = JSON.parse(fileData); //translate data to JS format
+  for (const iterator of storedRestaurants) {
+    if (iterator.id === restaurantId) {
+      return res.render("restaurant-detail", { restaurant: iterator });
+    }
+  }
+});
+
 app.get("/recommend", function (req, res) {
   //   res.sendFile(htmlFilePath("recommend"));
   res.render("recommend");
@@ -37,6 +50,7 @@ app.get("/recommend", function (req, res) {
 
 app.post("/recommend", function (req, res) {
   const restaurant = req.body; //extract data from input form
+  restaurant.id = uuid.v4();
   const filePath = path.join(__dirname, "data", "restaurants.json"); //access the data file
 
   const fileData = fs.readFileSync(filePath); //read data in file
