@@ -32,7 +32,6 @@ app.post("/store-user", function (req, res) {
 
   fs.writeFileSync(filePath, JSON.stringify(parsedData));
 
-  console.log(fileData);
   console.log(parsedData);
 
   res.send("<h1>Username stored</h1>");
