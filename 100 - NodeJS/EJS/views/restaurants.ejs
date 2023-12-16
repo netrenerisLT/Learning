@@ -8,11 +8,16 @@
     <%- include("includes/header") %>
     <main>
       <h1>Recommended restaurants</h1>
+
       <% if (numberOfRestaurants === 0) { %>
       <p>We don't have a restaurant's recommendation yet.</p>
       <% } else { %>
       <p>Find your next favorite restaurants with help of our other users!</p>
       <p>We found <%= numberOfRestaurants %> restaurants.</p>
+      <form action="/restaurants" method="GET">
+        <input type="hidden" value="<%- curentOrderFilter %>" name="order" />
+        <button class="btn">Change Order View</button>
+      </form>
       <ul id="restaurants-list">
         <% for (const iterator of restaurants) { %> <%-
         include("includes/restaurants/restaurant-item", {restaurant: iterator})

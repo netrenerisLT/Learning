@@ -1,8 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const htmlFilePath = (fileName) => {
-//   return path.join(__dirname, "views", `${fileName}.html`);
-// };
 
 router.get("/", function (req, res) {
   //   res.sendFile(htmlFilePath("index"));
