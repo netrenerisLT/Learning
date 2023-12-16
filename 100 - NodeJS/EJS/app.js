@@ -41,6 +41,7 @@ app.get("/restaurants/:id", function (req, res) {
       return res.render("restaurant-detail", { restaurant: iterator });
     }
   }
+  res.render("404");
 });
 
 app.get("/recommend", function (req, res) {
@@ -70,6 +71,10 @@ app.get("/about", function (req, res) {
 app.get("/confirm", function (req, res) {
   //   res.sendFile(htmlFilePath("confirm"));
   res.render("confirm");
+});
+
+app.use(function (req, res) {
+  res.render("404");
 });
 
 app.listen(3000);
