@@ -7,8 +7,11 @@ router.get("/", function (req, res) {
   res.redirect("/posts");
 });
 
-router.get("/posts", function (req, res) {
-  res.render("posts-list");
+router.get("/posts", async function (req, res) {
+  const [posts] = await db.query(
+    "SELECT posts.*, authors.name AS author_name FROM posts INNER JOIN authors ON posts.author_id = authors.id"
+  );
+  res.render("posts-list", { allPosts: posts });
 });
 
 router.get("/new-post", async function (req, res) {
