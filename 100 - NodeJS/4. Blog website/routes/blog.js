@@ -42,21 +42,46 @@ router.get("/posts/:id", async function (req, res) {
 
   if (!posts || posts.length === 0) {
     return res.status(404).render("404");
-  } else {
-    res.render("post-detail", { post: posts[0] });
-    console.log(posts);
   }
+
+  const postData = {
+    ...posts[0],
+    date: posts[0].date.toISOString(),
+    date: posts[0].date.toISOString(),
+    humanReadableDate: posts[0].date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
+  };
+
+  res.render("post-detail", { post: postData });
 });
 
-// router.get("/update-post/:2", async function (req, res) {
-//   const postId = req.params.id;
-//   const [postInfo] = await db.query("SELECT * FROM posts");
-//   for (const iterator of postInfo) {
-//     if (iterator.id === 1) {
-//       return res.render("/update-post", { postInfo: postInfo });
-//     }
-//   }
-//   console.log(postInfo);
-//   console.log(req.params.id);
-// });
+router.get("/posts/:id/edit", async function (req, res) {
+  const postId = req.params.id;
+  const [postInfo] = await db.query("SELECT * FROM posts WHERE id = ?", [
+    postId,
+  ]);
+
+  if (!postInfo || postInfo.length === 0) {
+    return res.status(404).render("404");
+  }
+
+  res.render("update-post", { postInfo: postInfo[0] });
+});
+
+router.post("/posts/:id/edit", async function (req, res) {
+  await db.query(
+    "UPDATE posts SET title = ?, summary = ?, body = ? WHERE id = ?",
+    [req.body.title, req.body.summary, req.body.content, req.params.id]
+  );
+  res.redirect(`/posts/${req.params.id}`);
+});
+
+router.post("/posts/:id/delete", async function (req, res) {
+  await db.query("DELETE FROM posts WHERE id = ?", [req.params.id]);
+  res.redirect("/posts");
+});
 module.exports = router;
