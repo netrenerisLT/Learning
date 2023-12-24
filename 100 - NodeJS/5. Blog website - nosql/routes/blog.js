@@ -42,7 +42,6 @@ router.get("/posts/:id", async function (req, res) {
     day: "numeric",
   });
   post.date = post.date.toISOString();
-  console.log(post);
   res.render("post-detail", { post: post });
 });
 
@@ -59,7 +58,6 @@ router.get("/posts/:id/edit", async function (req, res) {
   if (!post) {
     return res.status(404).render("404");
   }
-  console.log(post);
 
   res.render("update-post", { post: post });
 });
@@ -108,7 +106,16 @@ router.post("/posts", async function (req, res) {
     },
   };
   const result = await db.getDb().collection("posts").insertOne(data);
-  console.log(result);
+  res.redirect("/posts");
+});
+
+router.post("/posts/:id/delete", async function (req, res) {
+  const postId = req.params.id;
+  const post = await db
+    .getDb()
+    .collection("posts")
+    .deleteOne({ _id: new ObjectId(postId) });
+
   res.redirect("/posts");
 });
 
