@@ -24,12 +24,17 @@ async function fetchCommentsForPost() {
   const response = await fetch(`/posts/${postId}/comments`);
   const data = await response.json();
 
-  const fetchedComments = createCommentsList(data);
-  commentsSection.innerHTML = "";
-  commentsSection.appendChild(fetchedComments);
+  if (data && data.length > 0) {
+    const fetchedComments = createCommentsList(data);
+    commentsSection.innerHTML = "";
+    commentsSection.appendChild(fetchedComments);
+  } else {
+    commentsSection.firstElementChild.textContent =
+      "we didn't find any comments";
+  }
 }
 
-function saveComment(event) {
+async function saveComment(event) {
   event.preventDefault();
   const postId = commentsFormSubmit.dataset.postid;
   const enteredTitle = commentTitleElement.value;
@@ -39,13 +44,15 @@ function saveComment(event) {
     text: enteredText,
   };
 
-  fetch(`/posts/${postId}/comments`, {
+  const response = await fetch(`/posts/${postId}/comments`, {
     method: "POST",
     body: JSON.stringify(comment),
     headers: {
       "Content-Type": "application/json",
     },
   });
+
+  fetchCommentsForPost();
 }
 
 loadCommentsBtn.addEventListener("click", fetchCommentsForPost);
