@@ -1,5 +1,8 @@
 const loadCommentsBtn = document.getElementById("load-comments-btn");
 const commentsSection = document.getElementById("comments");
+const commentsFormSubmit = document.querySelector("#comments-form form");
+const commentTitleElement = document.getElementById("title");
+const commentTextElement = document.getElementById("text");
 
 function createCommentsList(comments) {
   const commentList = document.createElement("ol");
@@ -26,4 +29,24 @@ async function fetchCommentsForPost() {
   commentsSection.appendChild(fetchedComments);
 }
 
+function saveComment(event) {
+  event.preventDefault();
+  const postId = commentsFormSubmit.dataset.postid;
+  const enteredTitle = commentTitleElement.value;
+  const enteredText = commentTextElement.value;
+  const comment = {
+    title: enteredTitle,
+    text: enteredText,
+  };
+
+  fetch(`/posts/${postId}/comments`, {
+    method: "POST",
+    body: JSON.stringify(comment),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 loadCommentsBtn.addEventListener("click", fetchCommentsForPost);
+commentsFormSubmit.addEventListener("submit", saveComment);
