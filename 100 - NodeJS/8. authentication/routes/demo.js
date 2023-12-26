@@ -81,9 +81,15 @@ router.post("/login", async function (req, res) {
     return res.redirect("/login");
   }
 
-  console.log("authenticared");
-  console.log("user autheenticated");
-  res.redirect("/admin");
+  req.session.user = {
+    id: existingUser._id,
+    email: existingUser.email,
+  };
+
+  //we need save session, because redirect can be completed faster than saving the cokkies information and that stops user from authentication
+  req.session.save(function () {
+    res.redirect("/admin");
+  });
 });
 
 router.get("/admin", function (req, res) {
