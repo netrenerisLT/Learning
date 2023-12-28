@@ -31,6 +31,25 @@ app.use(
   })
 );
 
+app.use(async function (error, req, res, next) {
+  const user = req.session.user;
+  if (!user) {
+    return next();
+  }
+  const userDoc = await db
+    .getDb()
+    .collection("users")
+    .findOne({ _id: user.id });
+
+  const isAdmin = userDoc.isAdmin;
+  console.log(userDoc);
+  console.log("----");
+  console.log(isAdmin);
+  res.locals.isAdmin = isAdmin;
+
+  next();
+});
+
 app.use(demoRoutes);
 
 app.use(function (error, req, res, next) {
