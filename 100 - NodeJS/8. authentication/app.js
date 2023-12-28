@@ -42,9 +42,6 @@ app.use(async function (error, req, res, next) {
     .findOne({ _id: user.id });
 
   const isAdmin = userDoc.isAdmin;
-  console.log(userDoc);
-  console.log("----");
-  console.log(isAdmin);
   res.locals.isAdmin = isAdmin;
 
   next();

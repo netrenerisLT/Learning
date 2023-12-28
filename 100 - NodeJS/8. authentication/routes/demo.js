@@ -6,7 +6,7 @@ const db = require("../data/database");
 const router = express.Router();
 
 router.get("/", function (req, res) {
-  res.render("welcome");
+  console.log(req.session.user);
 });
 
 router.get("/signup", function (req, res) {
@@ -100,7 +100,6 @@ router.post("/signup", async function (req, res) {
 router.post("/login", async function (req, res) {
   const userData = req.body;
   const enteredEmail = userData.email;
-  const enteredConfirmEmail = userData["confirm-email"];
   const enteredPassword = userData.password;
 
   const existingUser = await db
@@ -143,7 +142,6 @@ router.post("/login", async function (req, res) {
     id: existingUser._id,
     email: existingUser.email,
   };
-
   //we need save session, because redirect can be completed faster than saving the cokkies information and that stops user from authentication
   req.session.save(function () {
     res.redirect("/profile");
@@ -151,23 +149,13 @@ router.post("/login", async function (req, res) {
 });
 
 router.get("/admin", async function (req, res) {
-  if (!req.session.user) {
-    return res.status(401).render("401");
-  }
-  const user = await db
-    .getDb()
-    .collection("users")
-    .findOne({ _id: req.session.user.id });
-  if (!user || !user.isAdmin) {
+  if (!res.locals.isAdmin) {
     return res.status(403).render("403");
   }
   res.render("admin");
 });
 
 router.get("/profile", function (req, res) {
-  if (!req.session.user) {
-    return res.status(401).render("401");
-  }
   res.render("profile");
 });
 
