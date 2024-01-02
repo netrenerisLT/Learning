@@ -25,7 +25,7 @@ class Post {
       .getDb()
       .collection("posts")
       .findOne({ _id: this.id });
-    this.title = postDocume nt.title;
+    this.title = postDocument.title;
     this.content = postDocument.content;
   }
 

@@ -9,6 +9,7 @@ const sessionConfig = require("./config/sessions");
 const db = require("./data/database");
 const blogRoutes = require("./routes/blog");
 const authRoutes = require("./routes/auth");
+const addCSRFToken = require("./middlewares/csrf-token");
 
 const mondgoDbSessionStore = sessionConfig.createSessionStore(session);
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session(sessionConfig.createSessionConfig(mondgoDbSessionStore)));
 
 app.use(csrf());
+app.use(addCSRFToken);
 
 app.use(authMiddleware);
 
