@@ -1,22 +1,21 @@
 const mongodb = require("mongodb");
-
 const MongoClient = mongodb.MongoClient;
-
 let database;
 
-async function connectToDatabase() {
+async function initDb() {
   const client = await MongoClient.connect("mongodb://localhost:27017");
-  database = client.db("auth-blog");
+  database = client.db("first-api");
 }
 
 function getDb() {
   if (!database) {
-    throw { message: "You must connect first!" };
+    throw new Error("DB not connected");
   }
   return database;
+  s;
 }
 
 module.exports = {
-  connectToDatabase: connectToDatabase,
+  initDb: initDb,
   getDb: getDb,
 };
