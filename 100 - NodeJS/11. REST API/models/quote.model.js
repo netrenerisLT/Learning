@@ -5,9 +5,10 @@ class Quote {
   static async getRandomQoute() {
     const quotes = await db.getDb().collection("quotes").find().toArray();
 
-    const randomQuote = Math.floor(Math.random() * quotes.length);
+    const randomQuoteIndex = Math.floor(Math.random() * quotes.length);
 
-    return randomQuote;
+    const randomQuote = quotes[randomQuoteIndex];
+    return randomQuote.text;
   }
 }
 module.exports = Quote;
