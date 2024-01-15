@@ -11,11 +11,9 @@ html {
   color: #ebe7ef;
   background: radial-gradient(#280a48, #20043d);
 
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
   min-height: 80rem;
 }
 
