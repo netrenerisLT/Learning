@@ -6,7 +6,7 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-export default function GameBoard() {
+export default function GameBoard({ changeActivePlayer, activePlayer }) {
   const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
   function handleSelection(rowIndex, colIndex, symbol) {
@@ -14,9 +14,11 @@ export default function GameBoard() {
       const updatedBoard = [
         ...prevGameBoard.map((innerArray) => [...innerArray]),
       ];
-      updatedBoard[rowIndex][colIndex] = "X";
+      updatedBoard[rowIndex][colIndex] = activePlayer;
       return updatedBoard;
     });
+
+    changeActivePlayer();
   }
   return (
     <ol id="game-board">

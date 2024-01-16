@@ -13,7 +13,7 @@ export default function Player(props) {
   }
 
   return (
-    <li>
+    <li className={props.isActive ? "active" : undefined}>
       <span className="player">
         {isEditing ? (
           <input
