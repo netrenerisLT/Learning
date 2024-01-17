@@ -1,9 +1,6 @@
 import { formatter } from "../util/investment";
 
 export default function Result({ calculatedValues, totalInvest }) {
-  const result = calculatedValues;
-
-  console.log(result);
   return (
     <table id="result">
       <thead>

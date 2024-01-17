@@ -1,7 +1,7 @@
 import Input from "./components/Input";
 import Result from "./components/Result";
 import { useState } from "react";
-import { calculateInvestmentResults } from "./util/investment";
+import { calculateInvestmentResults, formatter } from "./util/investment";
 
 function App() {
   const [inputValue, setInputValue] = useState({
@@ -14,12 +14,14 @@ function App() {
   function getInputValue(event) {
     const value = event.target.value;
     const field = event.target.name;
-    setInputValue({ ...inputValue, [field]: +value });
+    setInputValue((prevValue) => {
+      return { ...inputValue, [field]: +value };
+    });
   }
 
   const calculatedValues = calculateInvestmentResults(inputValue);
-  console.log(calculatedValues);
 
+  const inputIsValid = inputValue.duration >= 1;
   return (
     <>
       <div id="user-input">
@@ -28,6 +30,7 @@ function App() {
             onClick={getInputValue}
             name={"initialInvestment"}
             type={"number"}
+            value={inputValue.initialInvestment}
           >
             Initial Investment
           </Input>
@@ -35,26 +38,38 @@ function App() {
             onClick={getInputValue}
             name={"expectedReturn"}
             type={"number"}
+            value={inputValue.expectedReturn}
           >
-            Expected Return
+            Expected Return (%)
           </Input>
           <Input
             onClick={getInputValue}
             name={"annualInvestment"}
             type={"number"}
+            value={inputValue.annualInvestment}
           >
             Annual Investment
           </Input>
-          <Input onClick={getInputValue} name={"duration"} type={"number"}>
+          <Input
+            onClick={getInputValue}
+            name={"duration"}
+            type={"number"}
+            value={inputValue.duration}
+            min={1}
+          >
             Duration (year)
           </Input>
         </form>
       </div>
       <div>
-        <Result
-          calculatedValues={calculatedValues}
-          totalInvest={inputValue.initialInvestment}
-        />
+        {inputIsValid ? (
+          <Result
+            calculatedValues={calculatedValues}
+            totalInvest={inputValue.initialInvestment}
+          />
+        ) : (
+          <p>Please enter duration greater than zero.</p>
+        )}
       </div>
     </>
   );
