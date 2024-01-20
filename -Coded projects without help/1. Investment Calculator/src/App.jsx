@@ -14,7 +14,7 @@ function App() {
   function getInputValue(event) {
     const value = event.target.value;
     const field = event.target.name;
-    setInputValue((prevValue) => {
+    setInputValue(() => {
       return { ...inputValue, [field]: +value };
     });
   }
