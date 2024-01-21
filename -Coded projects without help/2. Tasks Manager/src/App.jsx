@@ -1,40 +1,56 @@
 import { useRef, useState } from "react";
 import AsideProjectList from "./components/AsideProjectList";
 import Button from "./components/Button";
-import Input from "./components/Input";
+import AddProject from "./components/AddProject";
 
-const inputValues = {
-  title: "",
-  desc: "",
-  date: "",
-};
+const innitialProjectListValues = [
+  {
+    title: "",
+    desc: "",
+    date: "",
+  },
+];
 
 function App() {
   const [handleCreateProject, setHandleCreateProject] = useState(true);
+  const [projectList, setProjectList] = useState(innitialProjectListValues);
 
   function handleBtnClick() {
     setHandleCreateProject(false);
   }
 
-  const title = useRef();
-  const desc = useRef();
-  const date = useRef();
+  const refProjectListFormValues = useRef();
+
   function handleSaveInputData(event) {
     event.preventDefault();
-    inputValues.title = title.current.value;
-    inputValues.desc = desc.current.value;
-    inputValues.date = date.current.value;
+    setProjectList((prevVal) => [
+      ...prevVal,
+      {
+        title: refProjectListFormValues.current["title"].value,
+        desc: refProjectListFormValues.current["desc"].value,
+        date: refProjectListFormValues.current["date"].value,
+      },
+    ]);
+    setHandleCreateProject(true);
+  }
 
-    console.log(inputValues);
+  function hanndle() {
+    console.log(projectList);
   }
 
   return (
     <>
       <div className="flex flex-row items-start mt-20 h-[calc(100vh_-_5rem)]">
+        <button onClick={hanndle} className="btnLight">
+          lalalal
+        </button>
         <div className="flex-initial w-96 h-full">
-          <AsideProjectList onClick={handleBtnClick} />
+          <AsideProjectList
+            onClick={handleBtnClick}
+            projectList={projectList}
+          />
         </div>
-        <div className="flex-auto text-center text-emerald-900">
+        <div className="flex-auto text-center items-center text-emerald-900">
           {handleCreateProject ? (
             <>
               <img
@@ -53,23 +69,11 @@ function App() {
               </Button>
             </>
           ) : (
-            <>
-              <div></div>
-              <form action="submit">
-                <Button btn="btnDark" onClick={handleSaveInputData}>
-                  Save
-                </Button>
-                <Input name={"title"} type={"text"} ref={title}>
-                  Title
-                </Input>
-                <Input name={"desc"} type={"text"} ref={desc}>
-                  Description
-                </Input>
-                <Input name={"date"} type={"text"} ref={date}>
-                  Due Date
-                </Input>
-              </form>
-            </>
+            <AddProject
+              saveValues={handleSaveInputData}
+              closeProjectForm={() => setHandleCreateProject(true)}
+              ref={refProjectListFormValues}
+            />
           )}
         </div>
       </div>

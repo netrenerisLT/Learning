@@ -8,7 +8,7 @@ export default function AsideProjectList(props) {
         + Add Project
       </Button>
       <ol>
-        <input type="text" name="ra" id="ra" />
+        <p>porject list</p>
       </ol>
     </aside>
   );
