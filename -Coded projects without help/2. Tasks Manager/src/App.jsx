@@ -1,13 +1,18 @@
 import { useRef, useState } from "react";
 import AsideProjectList from "./components/AsideProjectList";
-import Button from "./components/Button";
 import AddProject from "./components/AddProject";
+import NoProjectSelected from "./components/NoProjectSelected";
 
 const innitialProjectListValues = [
   {
-    title: "",
-    desc: "",
-    date: "",
+    title: "as",
+    desc: "asd",
+    date: "sad",
+  },
+  {
+    title: "bs",
+    desc: "bsd",
+    date: "sad",
   },
 ];
 
@@ -23,19 +28,29 @@ function App() {
 
   function handleSaveInputData(event) {
     event.preventDefault();
-    setProjectList((prevVal) => [
-      ...prevVal,
-      {
-        title: refProjectListFormValues.current["title"].value,
-        desc: refProjectListFormValues.current["desc"].value,
-        date: refProjectListFormValues.current["date"].value,
-      },
-    ]);
+    const title = refProjectListFormValues.current["title"].value;
+    const desc = refProjectListFormValues.current["desc"].value;
+    const date = refProjectListFormValues.current["date"].value;
+    if (title && desc && date) {
+      console.log("first");
+      setProjectList((prevVal) => [
+        ...prevVal,
+        {
+          title: title,
+          desc: desc,
+          date: date,
+        },
+      ]);
+    }
     setHandleCreateProject(true);
   }
 
   function hanndle() {
     console.log(projectList);
+
+    if (projectList == 0) {
+      console.log("first");
+    }
   }
 
   return (
@@ -52,22 +67,7 @@ function App() {
         </div>
         <div className="flex-auto text-center items-center text-emerald-900">
           {handleCreateProject ? (
-            <>
-              <img
-                src="logo.png"
-                alt="logo"
-                className="w-20 h-20 object-contain mx-auto"
-              />
-              <h1 className="mt-8 text-3xl font-bold capitalize ">
-                No project selected
-              </h1>
-              <p className="mt-6 mb-20">
-                Select project or get started with the new one.
-              </p>
-              <Button btn="btnDark" onClick={handleBtnClick}>
-                Create new project
-              </Button>
-            </>
+            <NoProjectSelected addProject={handleBtnClick} />
           ) : (
             <AddProject
               saveValues={handleSaveInputData}
