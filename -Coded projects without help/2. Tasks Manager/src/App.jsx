@@ -4,27 +4,10 @@ import AddProject from "./components/AddProject";
 import NoProjectSelected from "./components/NoProjectSelected";
 import SelectedProject from "./components/SelectedProject";
 
-const innitialProjectListValues = [
-  {
-    id: 1,
-    title: "as",
-    desc: "asd",
-    date: "2012-10-12",
-    tasks: ["1xc", "1s", "1a"],
-  },
-  {
-    id: 2,
-    title: "2s",
-    desc: "asd",
-    date: "2012-10-12",
-    tasks: ["22", "23", "24"],
-  },
-];
-
 function App() {
   const [handleCreateProject, setHandleCreateProject] = useState(true);
   const [handleShowProjectDetail, setHandleShowProjectDetail] = useState(false);
-  const [projectList, setProjectList] = useState(innitialProjectListValues);
+  const [projectList, setProjectList] = useState([]);
   const [selectedProject, setSelectedProject] = useState();
 
   const refProjectListFormValues = useRef();
@@ -60,30 +43,38 @@ function App() {
     event.preventDefault();
     const task = refProjectTaskFormValues.current["taskName"].value;
     refProjectTaskFormValues.current["taskName"].value = "";
-    if (task !== "" && task.length >= 1) {
-      const project = projectList.find((obj) => obj.id === selectedProject.id);
-      setSelectedProject({
-        ...project,
-        tasks: [...project.tasks, task],
-      });
-      project.tasks.push(task);
-    }
+    let newTask = projectList.map((project) => {
+      if (project.id === selectedProject) {
+        return { ...project, tasks: [...project.tasks, task] }; //gets everything that was already in item
+      }
+      return project; // else return unmodified item
+    });
+    setProjectList(newTask);
   }
 
   function handleProjectClick(projectId) {
-    const project = projectList.find((obj) => obj.id === projectId);
-    setSelectedProject(project);
+    setSelectedProject(projectId);
     setHandleShowProjectDetail(true);
   }
 
   function deleteTask(item) {
-    const index = selectedProject.tasks.indexOf(item);
-    console.log(item);
+    const project = projectList.find((obj) => obj.id === selectedProject);
+    const result = project.tasks.filter((word) => word !== item);
+    let newTask = projectList.map((project) => {
+      if (project.id === selectedProject) {
+        return { ...project, tasks: [...result] }; //gets everything that was already in item
+      }
+      return project; // else return unmodified item
+    });
+    setProjectList(newTask);
+  }
 
-    if (index !== -1) {
-      selectedProject.tasks.splice(index, 1);
-      console.log(selectedProject);
-    }
+  function deleteProject(item) {
+    setHandleShowProjectDetail(false);
+    setHandleCreateProject(true);
+    setProjectList((products) =>
+      products.filter((project, index) => project.id !== item)
+    );
   }
 
   return (
@@ -99,10 +90,12 @@ function App() {
         <div className="flex-auto text-center items-center text-emerald-900">
           {handleShowProjectDetail ? (
             <SelectedProject
-              projectList={selectedProject}
+              selectedId={selectedProject}
+              projectList={projectList}
               saveTaskValues={handleSaveTaskData}
               ref={refProjectTaskFormValues}
               deleteTask={deleteTask}
+              deleteProject={deleteProject}
             />
           ) : handleCreateProject ? (
             <NoProjectSelected addProject={handleBtnClick} />
