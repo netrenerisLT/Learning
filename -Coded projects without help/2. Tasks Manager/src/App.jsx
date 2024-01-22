@@ -6,29 +6,38 @@ import SelectedProject from "./components/SelectedProject";
 
 const innitialProjectListValues = [
   {
+    id: 1,
     title: "as",
     desc: "asd",
     date: "2012-10-12",
+    tasks: ["ba", "as", "va"],
   },
   {
+    id: 2,
     title: "bs",
     desc: "bsd",
     date: "2012-10-12",
+    tasks: ["ba", "as", "va", "ga", "kia"],
   },
 ];
 
 function App() {
   const [handleCreateProject, setHandleCreateProject] = useState(true);
+  const [handleShowProjectDetail, setHandleShowProjectDetail] = useState(false);
   const [projectList, setProjectList] = useState(innitialProjectListValues);
+  const [selectedProject, setSelectedProject] = useState();
 
   const refProjectListFormValues = useRef();
   const refProjectTaskFormValues = useRef();
+
   function handleBtnClick() {
     setHandleCreateProject(false);
+    setHandleShowProjectDetail(false);
   }
 
   function handleSaveProjectData() {
     // event.preventDefault();
+    const id = new Date().valueOf();
     const title = refProjectListFormValues.current["title"].value;
     const desc = refProjectListFormValues.current["desc"].value;
     const date = refProjectListFormValues.current["date"].value;
@@ -36,33 +45,42 @@ function App() {
       setProjectList((prevVal) => [
         ...prevVal,
         {
+          id: id,
           title: title,
           desc: desc,
           date: date,
+          tasks: [],
         },
       ]);
       setHandleCreateProject(true);
     } else return;
   }
 
-  function handleSaveTaskData() {
+  function handleSaveTaskData(event) {
     event.preventDefault();
-    console.log(refProjectTaskFormValues.current["taskName"].value);
+    const task = refProjectTaskFormValues.current["taskName"].value;
+    refProjectTaskFormValues.current["taskName"].value = "";
+    if (task !== "" && task.length >= 1) {
+      selectedProject.tasks.push(task);
+    }
   }
 
-  function handleProjectClick() {
-    console.log("first");
+  function handleProjectClick(projectId) {
+    const project = projectList.find((obj) => obj.id === projectId);
+    setSelectedProject(project);
+    setHandleShowProjectDetail(true);
   }
 
-  function hanndle() {
-    console.log(projectList);
+  function deleteTask(item) {
+    const index = selectedProject.tasks.indexOf(item);
+    if (index !== -1) {
+      selectedProject.tasks.splice(index, 1);
+    }
   }
+
   return (
     <>
       <div className="flex flex-row items-start mt-20 h-[calc(100vh_-_5rem)]">
-        <button onClick={hanndle} className="btnLight">
-          lalalal
-        </button>
         <div className="flex-initial w-96 h-full">
           <AsideProjectList
             onClick={handleBtnClick}
@@ -71,15 +89,15 @@ function App() {
           />
         </div>
         <div className="flex-auto text-center items-center text-emerald-900">
-          {handleCreateProject && (
-            <NoProjectSelected addProject={handleBtnClick} />
-          )}
-          {handleCreateProject ? (
+          {handleShowProjectDetail ? (
             <SelectedProject
-              projectList={projectList}
+              projectList={selectedProject}
               saveTaskValues={handleSaveTaskData}
               ref={refProjectTaskFormValues}
+              deleteTask={deleteTask}
             />
+          ) : handleCreateProject ? (
+            <NoProjectSelected addProject={handleBtnClick} />
           ) : (
             <AddProject
               saveProjectValues={handleSaveProjectData}

@@ -3,17 +3,36 @@ import Input from "./Input";
 import { forwardRef } from "react";
 
 const SelectedProject = forwardRef(function SelectedProject(
-  { projectList, saveTaskValues },
+  { projectList, saveTaskValues, deleteTask },
   refTask
 ) {
+  let projectTasks;
+
+  if (projectList.tasks) {
+    projectTasks = projectList.tasks.map((item) => {
+      return (
+        <li
+          key={projectList.id + item}
+          className="p-1 flex items-center bg-gray-50  justify-between px-2"
+        >
+          <h3>{item}</h3>
+          <Button
+            onClick={() => deleteTask(item)}
+            btn={"py-2 font-normal capitalize"}
+          >
+            Clear
+          </Button>
+        </li>
+      );
+    });
+  }
+
   return (
     <div className="px-8 flex flex-col items-start text-start">
       <div className="w-full">
-        <h1 className="text-3xl font-bold capitalize">
-          {projectList[1].title}
-        </h1>
-        <p className="mt-2 mb-4 italic">{projectList[1].date}</p>
-        <p className="mt-4 mb-8">{projectList[1].desc}</p>
+        <h1 className="text-3xl font-bold capitalize">{projectList.title}</h1>
+        <p className="mt-2 mb-4 italic">{projectList.date}</p>
+        <p className="mt-4 mb-8">{projectList.desc}</p>
         <hr className="border-b-1 border-emerald-800 rounded w-full mb-8" />
       </div>
       <div className="w-full">
@@ -28,9 +47,13 @@ const SelectedProject = forwardRef(function SelectedProject(
             Add Task
           </Button>
         </form>
-        <p className="mt-2 mb-4 italic">
-          Project doesn&apos;t have a task yet.
-        </p>
+        {projectTasks ? (
+          <ol className="flex flex-col gap-4 mt-8 max-w-2xl">{projectTasks}</ol>
+        ) : (
+          <p className="mt-2 mb-4 italic">
+            Project doesn&apos;t have a task yet.
+          </p>
+        )}
       </div>
     </div>
   );

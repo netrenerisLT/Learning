@@ -3,7 +3,7 @@ export default function Button(props) {
     <>
       <button
         onClick={props.onClick}
-        className={`${props.btn} btn hover:scale-105`}
+        className={`btn hover:scale-105 ${props.btn}`}
       >
         {props.children}
       </button>

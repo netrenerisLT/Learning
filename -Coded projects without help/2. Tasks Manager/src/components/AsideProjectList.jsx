@@ -9,7 +9,7 @@ export default function AsideProjectList({
     return (
       <li key={item.title + item.date} className="p-1">
         <button
-          onClick={handleProjectClick}
+          onClick={() => handleProjectClick(item.id)}
           className="text-cyan-50 py-4 capitalize hover:bg-emerald-800 w-full rounded-md"
         >
           {item.title}
