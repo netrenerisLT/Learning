@@ -10,14 +10,14 @@ const innitialProjectListValues = [
     title: "as",
     desc: "asd",
     date: "2012-10-12",
-    tasks: ["ba", "as", "va"],
+    tasks: ["1xc", "1s", "1a"],
   },
   {
     id: 2,
-    title: "bs",
-    desc: "bsd",
+    title: "2s",
+    desc: "asd",
     date: "2012-10-12",
-    tasks: ["ba", "as", "va", "ga", "kia"],
+    tasks: ["22", "23", "24"],
   },
 ];
 
@@ -61,7 +61,12 @@ function App() {
     const task = refProjectTaskFormValues.current["taskName"].value;
     refProjectTaskFormValues.current["taskName"].value = "";
     if (task !== "" && task.length >= 1) {
-      selectedProject.tasks.push(task);
+      const project = projectList.find((obj) => obj.id === selectedProject.id);
+      setSelectedProject({
+        ...project,
+        tasks: [...project.tasks, task],
+      });
+      project.tasks.push(task);
     }
   }
 
@@ -73,8 +78,11 @@ function App() {
 
   function deleteTask(item) {
     const index = selectedProject.tasks.indexOf(item);
+    console.log(item);
+
     if (index !== -1) {
       selectedProject.tasks.splice(index, 1);
+      console.log(selectedProject);
     }
   }
 
