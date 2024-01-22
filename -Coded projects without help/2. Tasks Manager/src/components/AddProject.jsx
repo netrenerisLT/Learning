@@ -3,7 +3,7 @@ import Button from "./Button";
 import Input from "./Input";
 
 const AddProject = forwardRef(function AddProject(
-  { saveValues, closeProjectForm },
+  { saveProjectValues, closeProjectForm },
   refProjectListFormValues
 ) {
   function handleDeleteInputData(event) {
@@ -13,7 +13,7 @@ const AddProject = forwardRef(function AddProject(
   }
   return (
     <form
-      action="submit"
+      //   action="submit"
       className="max-w-2xl flex flex-col gap-5 m-auto px-8"
       ref={refProjectListFormValues}
     >
@@ -21,7 +21,7 @@ const AddProject = forwardRef(function AddProject(
         <Button btn="btnLight" onClick={handleDeleteInputData}>
           Cancel
         </Button>
-        <Button btn="btnDark" onClick={saveValues}>
+        <Button btn="btnDark" onClick={saveProjectValues}>
           Save
         </Button>
       </div>

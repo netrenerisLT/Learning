@@ -1,10 +1,17 @@
 import Button from "./Button";
 
-export default function AsideProjectList({ projectList, onClick }) {
-  const va = projectList.map((item) => {
+export default function AsideProjectList({
+  projectList,
+  handleProjectClick,
+  onClick,
+}) {
+  const projectsList = projectList.map((item) => {
     return (
       <li key={item.title + item.date} className="p-1">
-        <button className="text-cyan-50 py-4 capitalize hover:bg-emerald-800 w-full rounded-md">
+        <button
+          onClick={handleProjectClick}
+          className="text-cyan-50 py-4 capitalize hover:bg-emerald-800 w-full rounded-md"
+        >
           {item.title}
         </button>
       </li>
@@ -17,7 +24,7 @@ export default function AsideProjectList({ projectList, onClick }) {
       <Button btn="btnLight" onClick={onClick}>
         + Add Project
       </Button>
-      <ol className="w-3/5 ">{va}</ol>
+      <ol className="w-3/5 ">{projectsList}</ol>
     </aside>
   );
 }

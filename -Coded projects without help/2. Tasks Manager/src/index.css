@@ -16,6 +16,7 @@
     color: rgb(6 78 59 / var(--tw-text-opacity));
   }
   .btn {
+    font-weight: bold;
     padding: 1rem;
     width: auto;
     border-radius: 0.5rem;
