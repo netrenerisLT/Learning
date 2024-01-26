@@ -9,7 +9,7 @@ export default function QuestionTimer({ timeout, onTimeout }) {
     }, timeout);
 
     return () => {
-      clearInterval(ustimeout);
+      clearTimeout(ustimeout);
     };
   }, [timeout, onTimeout]);
 
