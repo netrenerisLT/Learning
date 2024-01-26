@@ -5,6 +5,7 @@ import QuestionTimer from "./QuestionTimer";
 
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
+  const [answerState, setAnswerState] = useState("");
 
   const activeQuestionIndex = userAnswers.length;
 
@@ -13,9 +14,17 @@ export default function Quiz() {
   const handleSelectAnswer = useCallback(function handeSelectAnswer(
     selectedAnswer
   ) {
+    setAnswerState("answered");
     setUserAnswers((prevAnswer) => {
       return [...prevAnswer, selectedAnswer];
     });
+
+    setTimeout(() => {
+      if (selectedAnswer === QUESTIONS_DUMMY[activeQuestionIndex].answers[0]) {
+        setAnswerState("correct");
+      }
+      setAnswerState("wrong");
+    }, 1000);
   },
   []);
 
