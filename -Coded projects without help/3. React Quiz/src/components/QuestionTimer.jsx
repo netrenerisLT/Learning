@@ -10,7 +10,7 @@ export default function QuestionTimer({ timeout, onTimeout }) {
 
     return () => {
       clearTimeout(ustimeout);
-    };
+    }; 
   }, [timeout, onTimeout]);
 
   useEffect(() => {
