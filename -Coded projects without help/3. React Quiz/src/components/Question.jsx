@@ -17,7 +17,7 @@ export default function Question({ index, onSelectAnswer, onSkipAnswer }) {
   }
 
   if (answer.isCorrect !== null) {
-    timer = 2000;
+    timer = 500;
   }
 
   function handleSelectAnswer(answer) {
@@ -34,7 +34,7 @@ export default function Question({ index, onSelectAnswer, onSkipAnswer }) {
 
       setTimeout(() => {
         onSelectAnswer(answer);
-      }, 2000);
+      }, 1000);
     }, 1000);
   }
 
