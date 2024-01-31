@@ -20,7 +20,7 @@ function App() {
     isFetching,
     error,
     data: userPlaces,
-    setIsFetching: setUserPlaces,
+    setData: setUserPlaces,
   } = useFetch(fetchUserPlaces, []);
 
   function handleStartRemovePlace(place) {
