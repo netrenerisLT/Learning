@@ -4,7 +4,7 @@ export default function Login() {
   const [fieldInputs, setFieldInputs] = useState({
     email: "",
     password: "",
-    name: "Test"
+    name: "Test",
   });
 
   function handleSubmit(event) {
@@ -14,7 +14,13 @@ export default function Login() {
       email: event.target.email.value,
       password: event.target.password.value,
     }));
-    console.log(fieldInputs)
+    console.log(fieldInputs);
+
+    setFieldInputs({
+      email: "",
+      password: "",
+      name: "Test",
+    });
   }
 
   return (
@@ -24,12 +30,22 @@ export default function Login() {
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={fieldInputs.email}
+          />
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            value={fieldInputs.password}
+          />
         </div>
       </div>
 
