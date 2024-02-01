@@ -14,10 +14,10 @@ export default function Login() {
 
     if (!emailIsIValid) {
       setFormIsInvalid(true);
-      return
+      return;
     }
 
-    setFormIsInvalid(false)
+    setFormIsInvalid(false);
   }
 
   return (
@@ -28,7 +28,9 @@ export default function Login() {
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
           <input id="email" type="email" name="email" ref={email} />
-          <div className="control-error">{formIsInvalid && <p>Please enter valid email.</p>}</div>
+          <div className="control-error">
+            {formIsInvalid && <p>Please enter valid email.</p>}
+          </div>
         </div>
 
         <div className="control no-margin">

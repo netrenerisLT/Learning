@@ -1,3 +1,11 @@
+import {
+  hasMinLength,
+  isEmail,
+  isEqualsToOtherValue,
+  isNotEmpty,
+} from "../util/validation";
+import Input from "./Input";
+
 export default function Signup() {
   function handleSubmit(event) {
     event.preventDefault();
@@ -6,6 +14,22 @@ export default function Signup() {
     const formValues = Object.fromEntries(formData.entries());
     formValues.acquisition = acquisitionInputs;
 
+    if (
+      (hasMinLength(formValues.password, 3) &&
+        !isEqualsToOtherValue(
+          formValues.password,
+          formValues["confirm-password"]
+        )) ||
+      !isEmail(formValues.email)
+    ) {
+      return;
+    }
+
+    for (const property in formValues) {
+      if (property !== "acquisition" && !isNotEmpty(formValues[property])) {
+        return;
+      }
+    }
     console.log(formValues);
 
     // event.target.reset(); //reset form or instead use button type="reset" helps to do reset too
@@ -16,44 +40,41 @@ export default function Signup() {
       <h2>Welcome on board!</h2>
       <p>We just need a little bit of data from you to get you started 🚀</p>
 
-      <div className="control">
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" name="email" />
-      </div>
+      <Input label="Email" id="email" type="text" name="email" required />
 
       <div className="control-row">
-        <div className="control">
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
-        </div>
-
-        <div className="control">
-          <label htmlFor="confirm-password">Confirm Password</label>
-          <input
-            id="confirm-password"
-            type="password"
-            name="confirm-password"
-          />
-        </div>
+        <Input
+          label="Password"
+          id="password"
+          type="password"
+          name="password"
+          required
+        />
+        <Input
+          label="Confirm Password"
+          id="confirm-password"
+          type="password"
+          name="confirm-password"
+          required
+        />
       </div>
 
       <hr />
 
       <div className="control-row">
-        <div className="control">
-          <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" name="first-name" />
-        </div>
-
-        <div className="control">
-          <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" name="last-name" />
-        </div>
+        <Input
+          label="First Name"
+          id="first-name"
+          type="text"
+          name="first-name"
+          required
+        />
+        <Input label="Last Name" id="last-name" type="text" name="last-name" />
       </div>
 
       <div className="control">
         <label htmlFor="phone">What best describes your role?</label>
-        <select id="role" name="role">
+        <select id="role" name="role" required>
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
           <option value="employee">Employee</option>
@@ -64,39 +85,36 @@ export default function Signup() {
 
       <fieldset>
         <legend>How did you find us?</legend>
-        <div className="control">
-          <input
-            type="checkbox"
-            id="google"
-            name="acquisition"
-            value="google"
-          />
-          <label htmlFor="google">Google</label>
-        </div>
-
-        <div className="control">
-          <input
-            type="checkbox"
-            id="friend"
-            name="acquisition"
-            value="friend"
-          />
-          <label htmlFor="friend">Referred by friend</label>
-        </div>
-
-        <div className="control">
-          <input type="checkbox" id="other" name="acquisition" value="other" />
-          <label htmlFor="other">Other</label>
-        </div>
+        <Input
+          label="Google"
+          id="google"
+          type="checkbox"
+          name="acquisition"
+          value="google"
+        />
+        <Input
+          label="Referred by friend"
+          id="friend"
+          type="checkbox"
+          name="acquisition"
+          value="friend"
+        />
+        <Input
+          label="Other"
+          id="other"
+          type="checkbox"
+          name="acquisition"
+          value="other"
+        />
       </fieldset>
 
-      <div className="control">
-        <label htmlFor="terms-and-conditions">
-          <input type="checkbox" id="terms-and-conditions" name="terms" />I
-          agree to the terms and conditions
-        </label>
-      </div>
-
+      <Input
+        label="I agree to the terms and conditions"
+        id="terms-and-conditions"
+        type="checkbox"
+        name="terms"
+        required
+      />
       <p className="form-actions">
         <button type="reset" className="button button-flat">
           Reset
