@@ -1,3 +1,6 @@
+import { currencyFormatter } from "../util/formatting";
+import Button from "./UI/Button";
+
 export default function MealBox({ name, price, image, description }) {
   return (
     <li className="meal-item">
@@ -5,12 +8,11 @@ export default function MealBox({ name, price, image, description }) {
         <img src={`http://localhost:3000/${image}`} alt={name} />
         <div>
           <h3>{name}</h3>
-          <p className="meal-item-price">{price}</p>
-
+          <p className="meal-item-price">{currencyFormatter.format(price)}</p>
           <p className="meal-item-description">{description}</p>
         </div>
         <p className="meal-item-actions">
-          <button>Add to Cart</button>
+            <Button>Add to Cart</Button>
         </p>
       </article>
     </li>
