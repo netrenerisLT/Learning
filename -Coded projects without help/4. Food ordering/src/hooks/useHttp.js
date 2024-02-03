@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 async function sendHTTPrequest(url, config) {
   const response = await fetch(url, config);
@@ -12,16 +12,16 @@ async function sendHTTPrequest(url, config) {
   return respData;
 }
 
-export default function useHTTP(url, config) {
+export default function useHTTP(url, config, initialDAta) {
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState();
+  const [data, setData] = useState(initialDAta);
 
   const sendRequest = useCallback(
     async function sendRequest() {
       setIsLoading(true);
       try {
-        const respData = sendHTTPrequest(url, config);
+        const respData = await sendHTTPrequest(url, config);
         setData(respData);
       } catch (error) {
         setError(error.message || "Something wrong");
@@ -32,7 +32,7 @@ export default function useHTTP(url, config) {
   );
 
   useEffect(() => {
-    if (config && config.method === "GET") {
+    if ((config && (config.method === "GET" || !config.method)) || !config) {
       sendRequest();
     }
   }, [sendRequest, config]);
