@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import MealBox from "./MealBox";
+import Error from "./Error";
 import useHTTP from "../hooks/useHttp";
 
 const requestConfig = {};
@@ -11,10 +11,14 @@ export default function Meals() {
     error,
   } = useHTTP("http://localhost:3000/meals", requestConfig, []);
 
+  if (error) {
+    return <Error title="Failed to fetch meals." message={error}></Error>;
+  }
+
   return (
     <>
       {isLoading ? (
-        <p>Loading meals menu.</p>
+        <p className="center">Loading meals menu.</p>
       ) : (
         <ul id="meals">
           {loadedMeals.map((meal) => (
