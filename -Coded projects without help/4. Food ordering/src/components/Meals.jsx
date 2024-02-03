@@ -21,13 +21,7 @@ export default function Meals() {
   return (
     <ul id="meals">
       {loadedMeals.map((meal) => (
-        <MealBox
-          key={meal.id}
-          name={meal.name}
-          price={meal.price}
-          description={meal.description}
-          image={meal.image}
-        />
+        <MealBox key={meal.id} meal={meal} />
       ))}
     </ul>
   );
