@@ -18,8 +18,17 @@ export default function Cart(second) {
     progressCtx.hideCart();
   }
 
+  function redirectToCheckout() {
+    progressCtx.showCheckout();
+  }
+
   return (
-    <Modal className="cart" open={progressCtx.progress === "cart"}>
+    <Modal
+      className="cart"
+      open={progressCtx.progress === "cart"}
+      //add close with esc key and change progress state, to redirect to checkout
+      onClose={progressCtx.progress === "cart" ? handleCloseCart : null}
+    >
       <h2>Your Cart</h2>
       <ul>
         {cartCtx.items.map((item) => (
@@ -41,7 +50,9 @@ export default function Cart(second) {
         <Button textOnly onClick={handleCloseCart}>
           Close
         </Button>
-        <Button onClick={handleCloseCart}>Checkout</Button>
+        {cartCtx.items.length > 0 && (
+          <Button onClick={redirectToCheckout}>Checkout</Button>
+        )}
       </p>
     </Modal>
   );
