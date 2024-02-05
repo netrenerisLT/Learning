@@ -1,11 +1,10 @@
 // import { createStore } from "redux";
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const initialState = { counter: 0, showCounter: false };
-
+const initialCounterState = { counter: 0, showCounter: false };
 const counterSlice = createSlice({
   name: "counter",
-  initialState: initialState,
+  initialState: initialCounterState,
   reducers: {
     increment(state) {
       state.counter++; // redux toolkit auto dublicate state and we can use it like this (overwrite state in immutable way)
@@ -14,7 +13,7 @@ const counterSlice = createSlice({
       state.counter--;
     },
     increace(state, action) {
-      state.counter = state.counter + action.value;
+      state.counter = state.counter + action.payload;
     },
     toggle(state) {
       state.showCounter = !state.showCounter;
@@ -22,10 +21,28 @@ const counterSlice = createSlice({
   },
 });
 
+const initialAuthState = { isAuth: false };
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState: initialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuth = true;
+    },
+    logout(state) {
+      state.isAuth = false;
+    },
+  },
+});
+
 const store = configureStore({
   // reducer: counterSlice.reducer,
-  reducer: { counterSlice: counterSlice.reducer }, // use this if we have more than one reducer
+  reducer: { counterSlice: counterSlice.reducer, authSlice: authSlice.reducer }, // use this if we have more than one reducer
 });
+
+export const counterActions = counterSlice.actions;
+export const authActions = authSlice.actions;
 export default store;
 
 // const storeReducer = (state = initialState, action) => {
