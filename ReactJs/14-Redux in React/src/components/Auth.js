@@ -1,13 +1,14 @@
 import classes from "./Auth.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../store";
+import { authActions } from "../store/auth-slice";
 import UserProfile from "./UserProfile";
 
 const Auth = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.authSlice.isAuth);
 
-  const loginHandler = () => {
+  const loginHandler = (event) => {
+    event.preventDefault()
     dispatch(authActions.login());
   };
   return (
