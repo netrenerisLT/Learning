@@ -12,6 +12,7 @@ const CartItem = (props) => {
       cartActions.addItemToCart({
         id,
         price,
+        name: title,
       })
     );
   }
