@@ -3,7 +3,7 @@ import { uiActions } from "./ui-slice";
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: { items: [], totalQuantity: 0 },
+  initialState: { items: [], totalQuantity: 0, changed: false },
   reducers: {
     replaceCart(state, action) {
       state.totalQuantity = action.payload.totalQuantity;
@@ -13,6 +13,7 @@ const cartSlice = createSlice({
       const addedItem = action.payload;
       const existingItem = state.items.find((item) => item.id === addedItem.id);
       state.totalQuantity++;
+      state.changed = true
       if (!existingItem) {
         state.items.push({
           id: addedItem.id,
@@ -30,6 +31,7 @@ const cartSlice = createSlice({
       const itemId = action.payload;
       const existingItem = state.items.find((item) => item.id === itemId);
       state.totalQuantity--;
+      state.changed = true
 
       if (existingItem.quantity === 1) {
         state.items = state.items.filter((item) => item.id !== itemId);
