@@ -5,6 +5,10 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: { items: [], totalQuantity: 0 },
   reducers: {
+    replaceCart(state, action) {
+      state.totalQuantity = action.payload.totalQuantity;
+      state.items = action.payload.items;
+    },
     addItemToCart(state, action) {
       const addedItem = action.payload;
       const existingItem = state.items.find((item) => item.id === addedItem.id);
@@ -36,51 +40,6 @@ const cartSlice = createSlice({
     },
   },
 });
-
-export function sendCartData(cart) {
-  return async (dispatch) => {
-    dispatch(
-      uiActions.showNotification({
-        status: "pending",
-        title: "Sending...",
-        message: "Your cart data is sending.",
-      })
-    );
-
-    const sendRequest = async () => {
-      const response = await fetch(
-        "https://reduxtest-305d5-default-rtdb.europe-west1.firebasedatabase.app/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("sending cart data failed");
-      }
-    };
-
-    try {
-      await sendRequest();
-
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "Success!",
-          message: "Your cart data was sent.",
-        })
-      );
-    } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Error!",
-          message: "There was an error for sending the cart data.",
-        })
-      );
-    }
-  };
-}
 
 export const cartActions = cartSlice.actions;
 export default cartSlice;
