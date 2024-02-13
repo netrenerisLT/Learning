@@ -10,7 +10,8 @@ function Error() {
   let message = "Please try again.";
 
   if (error.status === 500) {
-    message = JSON.parse(error.data).message;
+    // message = JSON.parse(error.data).message;
+    message = error.data.message;
   }
   if (error.status === 404) {
     title = "Could not found page.";
