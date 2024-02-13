@@ -4,6 +4,10 @@ import EventsList from "../components/EventsList";
 function EventsPage() {
   const events = useLoaderData();
 
+  // if (events.isError) {
+  //   return <p>{events.message}</p>;
+  // }
+
   return (
     <>
       <EventsList events={events} />
@@ -13,13 +17,17 @@ function EventsPage() {
 
 export default EventsPage;
 
-
 export async function loader() {
   const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
+    // return { isError: true, message: "Could not fetch data... Please try again." };
+    throw new Response(
+      JSON.stringify({ message: "Could not fetch data... Please try again." }),
+      { status: 500 }
+    );
   } else {
     const resData = await response.json();
-    return resData.events
+    return resData.events;
   }
 }
