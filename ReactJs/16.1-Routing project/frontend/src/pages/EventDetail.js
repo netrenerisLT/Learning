@@ -4,7 +4,6 @@ import EventItem from "../components/EventItem";
 function EventDetailPage() {
   // const params = useParams();
   const data = useRouteLoaderData("event-detail");
-  console.log(data);
 
   return (
     <>
