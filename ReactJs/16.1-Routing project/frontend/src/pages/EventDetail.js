@@ -19,7 +19,7 @@ function EventDetailPage() {
 
 export default EventDetailPage;
 
-export async function loader({ req, params }) {
+export async function loader({ request, params }) {
   const response = await fetch(`http://localhost:8080/events/${params.id}`);
 
   if (!response.ok) {
