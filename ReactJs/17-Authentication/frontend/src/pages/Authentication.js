@@ -8,12 +8,15 @@ function AuthenticationPage() {
 export default AuthenticationPage;
 
 export async function action({ request }) {
+  //get URL data without using router function
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode") || "login";
 
+  //prevents user for wrong mode set by edting url
   if (mode !== "login" && mode !== "signup") {
     throw json({ message: "Unsupported mode" }, { status: 422 });
   }
+
 
   const data = await request.formData();
   const authData = {
@@ -36,6 +39,8 @@ export async function action({ request }) {
   if (!response.ok) {
     throw json({ message: "Could not authenticate" }, { status: 500 });
   }
+
+  
 
   return redirect("/");
 }

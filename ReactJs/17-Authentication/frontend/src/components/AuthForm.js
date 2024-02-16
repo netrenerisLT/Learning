@@ -26,7 +26,7 @@ function AuthForm() {
             ))}
           </ul>
         )}
-        {/* {data && data.message && <p>{data.message}</p>} */}
+        {data && data.message && <p>{data.message}</p>}
 
         <p>
           <label htmlFor="email">Email</label>
