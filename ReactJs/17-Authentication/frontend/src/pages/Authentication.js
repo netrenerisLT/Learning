@@ -17,7 +17,6 @@ export async function action({ request }) {
     throw json({ message: "Unsupported mode" }, { status: 422 });
   }
 
-
   const data = await request.formData();
   const authData = {
     email: data.get("email"),
@@ -40,7 +39,11 @@ export async function action({ request }) {
     throw json({ message: "Could not authenticate" }, { status: 500 });
   }
 
-  
+  //store generated token to local storage
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem("token", token);
 
   return redirect("/");
 }
