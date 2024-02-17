@@ -18,7 +18,36 @@ export default function EditEvent() {
 
   const { mutate } = useMutation({
     mutationFn: updateEvent,
- 
+    //executes right when mutate fn (below) is called
+    onMutate: async (data) => {
+      const newData = data.event; //data is passed with mutate fn (below) and we can get "event" data
+
+      await queryClient.cancelQueries({ queryKey: ["events", params.id] }); //cancels all active queries for selected key, to prevent clashing of query.
+
+      const onUpdatedEvent = queryClient.getQueryData(["events", params.id]); // give currently stored qeury data
+
+      //manipulate date without wating the response
+      queryClient.setQueryData(["events", params.id], newData); //first argment is the key of data (event), what want to be edited. Second argument is the new data which will be changed (of selected key).
+
+      return {
+        onUpdatedEvent: onUpdatedEvent,
+      };
+    },
+
+    //rolling back optmistic update if the mutation failed
+    onError: (
+      error, //error object
+      data, //data which was submitted to the mutation
+      context //context helps to get data from onMutate (this data must be returned) and can contain onUpdatedEvent event data
+    ) => {
+      queryClient.setQueryData(["events", params.id], context.onUpdatedEvent); //first argment is the key of data (event), what want to be edited. Second argument is the new data which will be changed (of selected key).
+    },
+
+    //will be called no matter if mutation fn failed or succeded
+    onSettled: () => {
+      //makes sure and double-check that all queries is updated
+      queryClient.invalidateQueries(["events", params.id]);
+    },
   });
 
   function handleSubmit(formData) {
