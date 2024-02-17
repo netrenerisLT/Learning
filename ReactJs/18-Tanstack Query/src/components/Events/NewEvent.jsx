@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
-import { createNewEvent } from "../../util/http.js";
+import { createNewEvent, queryClient } from "../../util/http.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
 export default function NewEvent() {
@@ -13,6 +13,11 @@ export default function NewEvent() {
   //mutate used when you need to tell when to send the request
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewEvent,
+    //waits till the mutation request is completed and then executes this function when succesful mutation
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["events"]}); //tells that certain data is outdated and it needs to berefetched if it's somehow visible (e.x. under the backdrrop) on the screen
+      navigate("/events");
+    },
   });
 
   function handleSubmit(formData) {
