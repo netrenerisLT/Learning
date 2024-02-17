@@ -26,8 +26,8 @@ export default function EventDetails() {
     },
   });
   function handleDelete() {
-    const isApproved = window.confirm("Are you sure?");
-    if (isApproved) {
+    const isApprovedDeletion = window.confirm("Are you sure?");
+    if (isApprovedDeletion) {
       mutate({ id: params.id });
     }
   }
