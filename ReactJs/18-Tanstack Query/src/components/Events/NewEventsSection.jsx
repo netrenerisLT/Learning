@@ -5,10 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchEvents } from "../../util/http.js";
 
 export default function NewEventsSection() {
+  const EVENTS_QUANTITY = 3;
   //send HTTP request, get back data and status
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["events"], //caches data which are sent and use key as identfication for caching
-    queryFn: fetchEvents, //define acttual code which will be executed to send request
+    queryKey: ["events", { max: EVENTS_QUANTITY }], //caches data which are sent and use key as identfication for caching
+    queryFn: ({ signal }) => fetchEvents({ signal, max: EVENTS_QUANTITY }), //define acttual code which will be executed to send request
     staleTime: 0, // default 0. control time after the request is sent to look if there are updated data to fetch if ths data was cached before
     gcTime: 1000 * 60 * 5, //default 5min. how long data and the cache wll be kept around
   });

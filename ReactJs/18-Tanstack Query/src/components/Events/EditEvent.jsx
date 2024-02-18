@@ -1,17 +1,23 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  redirect,
+  useSubmit,
+} from "react-router-dom";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchEvent, queryClient, updateEvent } from "../../util/http.js";
-import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
 export default function EditEvent() {
   const navigate = useNavigate();
   const params = useParams();
+  const submit = useSubmit();
 
-  const { data, isError, error, isPending } = useQuery({
+  const { data, isError, error } = useQuery({
     queryKey: ["events", params.id],
     queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
   });
@@ -51,22 +57,15 @@ export default function EditEvent() {
   });
 
   function handleSubmit(formData) {
-    mutate({ id: params.id, event: formData });
-    navigate("../");
+    // mutate({ id: params.id, event: formData });
+    // navigate("../");
+    submit(formData, { method: "PUT" });
   }
 
   function handleClose() {
     navigate("../");
   }
   let content;
-
-  if (isPending) {
-    content = (
-      <div className="center">
-        <LoadingIndicator />
-      </div>
-    );
-  }
 
   if (isError) {
     content = (
@@ -97,4 +96,22 @@ export default function EditEvent() {
     );
   }
   return <Modal onClose={handleClose}>{content}</Modal>;
+}
+
+export function loader({ params }) {
+  return queryClient.fetchQuery({
+    queryKey: ["events", params.id],
+    queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
+  });
+}
+export async function action({ params, request }) {
+  const formData = await request.formData();
+  const updatedEventData = Object.fromEntries(formData);
+  await updateEvent({
+    id: params.id,
+    event: updatedEventData,
+  });
+  await queryClient.invalidateQueries(["events"]);
+
+  return redirect("../");
 }
