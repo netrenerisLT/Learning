@@ -1,4 +1,4 @@
-import classes from "./Header-background.module.css";
+import classes from "./HeaderBackground.module.css";
 export default function MainHeaderBackground() {
   return (
     <div className={classes["header-background"]}>

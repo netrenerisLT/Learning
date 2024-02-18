@@ -2,7 +2,7 @@ import Link from "next/link";
 import logoImg from "@/assets/logo.png";
 import classes from "./header.module.css";
 import Image from "next/image";
-import MainHeaderBackground from "./Header-background";
+import MainHeaderBackground from "./HeaderBackground";
 
 export default function Header() {
   return (
