@@ -6,7 +6,7 @@ import { fetchEvents } from "../../util/http.js";
 
 export default function NewEventsSection() {
   const EVENTS_QUANTITY = 3;
-  //send HTTP request, get back data and status
+  //send HTTP request, get back data wand status
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events", { max: EVENTS_QUANTITY }], //caches data which are sent and use key as identfication for caching
     queryFn: ({ signal }) => fetchEvents({ signal, max: EVENTS_QUANTITY }), //define acttual code which will be executed to send request
