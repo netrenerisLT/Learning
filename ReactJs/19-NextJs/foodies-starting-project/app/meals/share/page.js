@@ -1,23 +1,32 @@
+"use client"
 import ImagePicker from "@/components/meals/ImagePicker";
 import classes from "./page.module.css";
 import { shareMeal } from "@/lib/actions";
+import MealsFormStatus from "@/components/meals/MealsFormStatus";
+import { useFormState } from "react-dom";
 
 export default function ShareMealPage() {
+  //uses to manage state of the forms which are submitted with help of server actions
+  //first argument is server action which are triggered when form is submitted
+  //second argument is innitial state of the component before first argument was triggered
+  const [state, formAction] = useFormState(shareMeal, { message: null });
+  //state is a current state returned by the hook "message object"
+  //
 
   return (
     <>
       <header className={classes.header}>
         <h1>
-          Share your <span className={classes.highlight}> meal.</span>
+          Share your <span className={classes.highlight}>favorite meal</span>
         </h1>
         <p>Or any other meal you feel needs sharing!</p>
       </header>
       <main className={classes.main}>
-        <form className={classes.form} action={shareMeal}>
+        <form className={classes.form} action={formAction}>
           <div className={classes.row}>
             <p>
               <label htmlFor="name">Your name</label>
-              <input type="text" id="name" name="name" required />
+              <input type="text" id="name" name="name"  />
             </p>
             <p>
               <label htmlFor="email">Your email</label>
@@ -41,9 +50,10 @@ export default function ShareMealPage() {
               required
             ></textarea>
           </p>
-          <ImagePicker label="Your I age" name="image" />
+          <ImagePicker label="Your image" name="image" />
+          {state.message && <p>{state.message}</p>}
           <p className={classes.actions}>
-            <button type="submit">Share Meal</button>
+            <MealsFormStatus />
           </p>
         </form>
       </main>
