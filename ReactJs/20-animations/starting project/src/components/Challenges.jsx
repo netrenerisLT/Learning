@@ -48,6 +48,8 @@ export default function Challenges() {
             <motion.ol
               key="list" //we need to add different key if animatepresence wraps more than 1 element
               exit={{ y: -30, opacity: 0 }} //exit animation just for last element
+              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
               className="challenge-items"
             >
               <AnimatePresence>
