@@ -309,9 +309,9 @@ main {
   width: 30rem;
   max-width: 90%;
   z-index: 10;
-  animation: slide-up-fade-in 0.3s ease-in forwards;
+  /* animation: slide-up-fade-in 0.3s ease-in forwards; */
 }
-
+/* 
 @keyframes slide-up-fade-in {
   0% {
     transform: translateY(30px);
@@ -321,7 +321,7 @@ main {
     transform: translateY(0px);
     opacity: 1;
   }
-}
+} */
 
 .modal h2 {
   margin-top: 0;
