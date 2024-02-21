@@ -2,11 +2,23 @@ import Image from "next/image";
 import classes from "./page.module.css";
 import { getMeal } from "@/lib/meals";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }) {
+  const meal = getMeal(params.mealSlug);
+  if (!meal) {
+    notFound(); //calls closest notfound or error page and stops forward execution
+  }
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default function MealInfo({ params }) {
   const meal = getMeal(params.mealSlug);
 
   if (!meal) {
-    notFound() //calls closest notfound or error page and stops forward execution
+    notFound(); //calls closest notfound or error page and stops forward execution
   }
 
   meal.instructions = meal.instructions.replace(/\n/g, "<br/>"); //add html support in instructions and add brakes when space is typed
