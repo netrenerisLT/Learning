@@ -7,13 +7,10 @@ function App() {
         <h2>Why work wih us</h2>
         <Accordion className="accordion">
           <Accordion.Iitem id="experience" className="accordion-item">
-            <Accordion.Ttitle id="experience" className="accordion-item-title">
+            <Accordion.Ttitle className="accordion-item-title">
               We got experience
             </Accordion.Ttitle>
-            <Accordion.Ccontent
-              id="experience"
-              className="accordion-item-content"
-            >
+            <Accordion.Ccontent className="accordion-item-content">
               <article>
                 <p>You cant go wrong with us</p>
                 <p>We are proffesionals</p>
@@ -21,16 +18,10 @@ function App() {
             </Accordion.Ccontent>
           </Accordion.Iitem>
           <Accordion.Iitem id="local-guides" className="accordion-item">
-            <Accordion.Ttitle
-              id="local-guides"
-              className="accordion-item-title"
-            >
+            <Accordion.Ttitle className="accordion-item-title">
               Over 20 projects
             </Accordion.Ttitle>
-            <Accordion.Ccontent
-              id="local-guides"
-              className="accordion-item-content"
-            >
+            <Accordion.Ccontent className="accordion-item-content">
               <article>
                 <p>We can prove you</p>
                 <p>Just contact us</p>

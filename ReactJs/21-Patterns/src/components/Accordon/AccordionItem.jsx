@@ -1,5 +1,20 @@
-import AccordionTitle from "./AccordionTitle";
+import { useContext } from "react";
+import { createContext } from "react";
 
-export default function AccordionItem({ children, className }) {
-  return <li className={className}>{children}</li>;
+const AccordionItemIdContext = createContext();
+
+export function useAccordionItemIdContext() {
+  const ctx = useContext(AccordionItemIdContext);
+  if (!ctx) {
+    throw new Error("Wrong related id props.");
+  }
+  return ctx;
+}
+
+export default function AccordionItem({ id, children, className }) {
+  return (
+    <AccordionItemIdContext.Provider value={id}>
+      <li className={className}>{children}</li>
+    </AccordionItemIdContext.Provider>
+  );
 }
