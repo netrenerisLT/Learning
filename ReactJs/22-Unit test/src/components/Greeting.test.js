@@ -34,6 +34,6 @@ describe("Greeting component", () => {
     const changedText = screen.queryByText("Not changed", {
       exact: false,
     });
-    expect(changedText).not.toBeInTheDocument();
+    expect(changedText).toBeNull()
   });
 });
