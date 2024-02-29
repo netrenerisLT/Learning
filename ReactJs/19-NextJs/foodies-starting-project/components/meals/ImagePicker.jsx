@@ -50,6 +50,7 @@ export default function ImagePicker({ label, name }) {
             id={name}
             name={name}
             ref={imageInput}
+            multiple //let pick multiple files
             onChange={handleImageChange}
             required
             accept="image/png, image/jpeg"
