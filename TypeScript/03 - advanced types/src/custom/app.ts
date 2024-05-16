@@ -23,6 +23,8 @@ type Numeric = number | boolean;
 
 type Universal = Combinable & Numeric;
 
+
+/* ====================== function overlods ====================== */
 function add(a: number, b: number): number;
 function add(a: string, b: string): string;
 function add(a: string, b: number): string;
@@ -37,6 +39,7 @@ function add(a: Combinable, b: Combinable) {
 const result = add('Max', ' Schwarz');
 result.split(' ');
 
+/* ====================== optional chaining ====================== */
 const fetchedUserData = {
   id: 'u1',
   name: 'Max',
@@ -45,6 +48,7 @@ const fetchedUserData = {
 
 console.log(fetchedUserData?.job?.title);
 
+/* ====================== nullish coalescing ====================== */
 const userInput = undefined;
 
 const storedData = userInput ?? 'DEFAULT';
