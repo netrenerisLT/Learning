@@ -8,8 +8,9 @@ type HeaderProps = {
 export default function Header({ image, children }: HeaderProps) {
   return (
     <header>
-      <img src={image.src} alt={image.alt} />
-      <h2>{children}</h2>
+      {/* <img src={image.src} alt={image.alt} /> */}
+      <img {...image} />
+      <h1>{children}</h1>
     </header>
   );
 }
