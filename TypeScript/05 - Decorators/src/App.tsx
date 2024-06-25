@@ -7,9 +7,21 @@ function Logger(logString: string) {
   };
 }
 
-@Logger( "logging person")
+function withTemplate(template: string, hookId: string) {
+  return function (constructor: string) {
+    const element = document.getElementById(hookId);
+    const person = new constructor();
+    if (element) {
+      element.innerHTML = template;
+      element.querySelector("h1")!.textContent = person.name
+    }
+  };
+}
+
+// @Logger("logging person")
+@withTemplate("<h1>Changed text inside with decorator</h1>", "app")
 class Person {
-  name = "Max";
+  name = "John";
 
   constructor() {
     console.log("Creating person object...");
@@ -21,7 +33,7 @@ const pers = new Person();
 console.log(pers);
 
 function App() {
-  return <div></div>;
+  return <div id="app">save again, to see difference</div>;
 }
 
 export default App;
