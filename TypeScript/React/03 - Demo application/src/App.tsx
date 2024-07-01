@@ -1,7 +1,11 @@
+import { useRef } from "react";
 import Button from "./components/Button";
 import Container from "./components/Container";
+import Input from "./components/Input";
 
 function App() {
+  const refas = useRef<HTMLInputElement>(null);
+
   return (
     <main>
       <Container
@@ -15,6 +19,7 @@ function App() {
       <Container as={Button} el="button">
         I'm button
       </Container>
+      <Input label="test" id="test" ref={refas}></Input>
     </main>
   );
 }
