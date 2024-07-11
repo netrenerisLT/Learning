@@ -17,7 +17,7 @@ function App() {
     <main>
       <Form onSave={handleSave} ref={customRef}>
         <Input type="text" label="name" id="name"></Input>
-        <Input type="email" label="email" id="email"></Input>
+        <Input type="number" label="age" id="age"></Input>
         <p>
           <Button el="button">Register</Button>
         </p>
