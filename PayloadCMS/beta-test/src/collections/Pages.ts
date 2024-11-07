@@ -8,7 +8,12 @@ export const Pages: CollectionConfig = {
   fields: [
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'slug', label: 'Slug', type: 'text', required: true, admin: { position: 'sidebar' } },
-    { name: 'layout', label: 'Layout', type: 'blocks', blocks: [Cover, Image, RichText] },
+    {
+      name: 'layout',
+      label: 'Layout',
+      type: 'blocks',
+      required: true,
+      blocks: [Cover, Image, RichText],
+    },
   ],
 }
- 

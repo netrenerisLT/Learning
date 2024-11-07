@@ -1,6 +1,6 @@
 import { Page } from '@/payload-types'
 import React, { Fragment } from 'react'
-import CoverBlockServer from '../blocks/cover/Server'
+import CoverBlockServer from '@/blocks/cover/Server'
 
 const blockComponents = {
   cover: CoverBlockServer,
