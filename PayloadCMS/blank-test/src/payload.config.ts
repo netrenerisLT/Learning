@@ -1,6 +1,4 @@
 import path from "path";
-
-import { payloadCloud } from "@payloadcms/plugin-cloud";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { slateEditor } from "@payloadcms/richtext-slate";
@@ -9,7 +7,9 @@ import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
 import { s3Adapter } from "@payloadcms/plugin-cloud-storage/s3";
 
 import Users from "./collections/Users";
-import Media from "./collections/media";
+import Media from "./collections/Media";
+import Dashboard from "./views/Dashboard";
+import { Pages } from "./collections/Pages";
 
 const storageAdapter = s3Adapter({
   config: {
@@ -27,7 +27,13 @@ export default buildConfig({
   // serverURL: process.env.PAYLOAD_PUBLIC_EXTERNAL_SERVER_URL,
   admin: {
     user: Users.slug,
+    css: path.resolve(__dirname, "../styles.css"),
     bundler: webpackBundler(),
+    components: {
+      views: {
+        Dashboard: Dashboard,
+      },
+    },
   },
   editor: slateEditor({}),
   collections: [Users, Media],
@@ -40,7 +46,7 @@ export default buildConfig({
   plugins: [
     cloudStorage({
       collections: {
-        'media': {
+        media: {
           adapter: storageAdapter, // see docs for the adapter you want to use
         },
       },

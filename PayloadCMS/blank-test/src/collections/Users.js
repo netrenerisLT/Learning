@@ -10,7 +10,7 @@ const Users = {
     useAsTitle: "email",
   },
   fields: [
-    // Email added by default
+    { name: "vardas", type: "text" }, // Email added by default
     // Add more fields as needed
   ],
 };
